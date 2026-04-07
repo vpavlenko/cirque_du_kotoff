@@ -1,26 +1,240 @@
-@import "tailwindcss";
-
 :root {
   --background: #ffffff;
   --foreground: #171717;
-}
+  --muted: rgba(0, 0, 0, 0.55);
+  --border: rgba(0, 0, 0, 0.12);
+  --accent: #2563eb;
+  --accentBg: rgba(37, 99, 235, 0.12);
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --fs-question: 100px;
+  --fs-timer: 150px;
+  --fs-between: 44px;
+  --fs-idle: 36px;
+  --fs-footer: 12px;
+
+  --gap-question-timer: 100px;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
+    --muted: rgba(255, 255, 255, 0.65);
+    --border: rgba(255, 255, 255, 0.16);
+    --accent: #60a5fa;
+    --accentBg: rgba(96, 165, 250, 0.16);
   }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial,
+    "Noto Sans", "Liberation Sans", sans-serif;
+  margin: 0;
+}
+
+button,
+input {
+  font: inherit;
+  color: inherit;
+}
+
+.appRoot {
+  position: relative;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.displayArea {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  text-align: center;
+}
+
+.runningLayout {
+  flex: 1;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--gap-question-timer);
+}
+
+.questionText {
+  font-weight: 650;
+  line-height: 1.15;
+  font-size: var(--fs-question);
+  max-width: 56ch;
+  text-align: left;
+}
+
+.timerText {
+  font-variant-numeric: tabular-nums;
+  font-size: var(--fs-timer);
+}
+
+.betweenText {
+  font-weight: 650;
+  font-size: var(--fs-between);
+}
+
+.finishedText,
+.idleText {
+  font-weight: 650;
+  font-size: var(--fs-idle);
+}
+
+.footer {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-top: 1px solid var(--border);
+  background: color-mix(in srgb, var(--background) 92%, transparent);
+  backdrop-filter: blur(10px);
+}
+
+.footerInner {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 6px;
+  padding: 8px;
+}
+
+.footerRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.footerRowTop {
+  justify-content: flex-start;
+}
+
+.footerRowBottom {
+  justify-content: space-between;
+}
+
+.footerRowTop {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  overflow-x: auto;
+}
+
+.toggleLabel {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  user-select: none;
+  white-space: nowrap;
+  font-size: var(--fs-footer);
+}
+
+.toggleName.used {
+  opacity: 0.4;
+}
+
+.toggleLabel.selected {
+  color: var(--accent);
+}
+
+.toggleLabel.selected .toggleName {
+  background: var(--accentBg);
+  border-radius: 6px;
+  padding: 1px 6px;
+}
+
+.toggleLabel.selected .tinyRadio {
+  accent-color: var(--accent);
+}
+
+.tinyRadio {
+  width: 12px;
+  height: 12px;
+}
+
+.nextButton {
+  flex: none;
+  font-size: var(--fs-footer);
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: transparent;
+}
+
+.nextButton:disabled {
+  opacity: 0.4;
+}
+
+.preview {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: var(--fs-footer);
+  color: var(--muted);
+  min-width: 0;
+}
+
+.rightControls {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.buttons {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.smallButton {
+  flex: none;
+  font-size: var(--fs-footer);
+  padding: 6px 8px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: transparent;
+}
+
+.smallButton:disabled {
+  opacity: 0.4;
+}
+
+.secondsInput {
+  flex: none;
+  width: 64px;
+  height: 12px;
+  font-size: 12px;
+  padding: 0 6px;
+  text-align: right;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: transparent;
+  font-variant-numeric: tabular-nums;
 }
