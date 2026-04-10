@@ -73,7 +73,7 @@ export default function RoundsApp() {
   const [selectedSetId, setSelectedSetId] = useState<QuestionSetId | null>(null);
   const [questions, setQuestions] = useState<Question[]>([]);
   const [phase, setPhase] = useState<Phase>("idle");
-  const [roundSeconds, setRoundSeconds] = useState<number>(90);
+  const [roundSeconds, setRoundSeconds] = useState<number>(180);
   const [activeQuestionIndex, setActiveQuestionIndex] = useState<number | null>(
     null,
   );

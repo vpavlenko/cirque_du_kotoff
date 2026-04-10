@@ -6,13 +6,13 @@
   --accent: #2563eb;
   --accentBg: rgba(37, 99, 235, 0.12);
 
-  --fs-question: 65px;
+  --fs-question: 50px;
   --fs-timer: 130px;
   --fs-between: 100px;
   --fs-idle: 36px;
   --fs-footer: 12px;
 
-  --gap-question-timer: 100px;
+  --gap-question-timer: 20px;
 }
 
 @media (prefers-color-scheme: dark) {
