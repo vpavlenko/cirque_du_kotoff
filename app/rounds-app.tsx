@@ -26,6 +26,12 @@ type QuestionSet = {
 };
 
 type Phase = "idle" | "running" | "between" | "finished";
+type Pairing = {
+  left: string;
+  right: string | null;
+};
+
+const BYE = "__BYE__";
 
 function clampInt(value: number, min: number, max: number) {
   if (!Number.isFinite(value)) return min;
@@ -56,6 +62,61 @@ function normalizeQuestions(source: unknown): Question[] {
     }));
 }
 
+function normalizeParticipants(source: string) {
+  return source
+    .split(/\r?\n|,/)
+    .map((entry) => entry.trim())
+    .filter(Boolean);
+}
+
+function buildRoundPairings(participants: string[], roundIndex: number): Pairing[] {
+  if (participants.length === 0) return [];
+
+  const padded =
+    participants.length % 2 === 0 ? [...participants] : [...participants, BYE];
+  const ordered = new Array<string>(padded.length);
+
+  for (let idx = 0; idx < padded.length / 2; idx += 1) {
+    ordered[idx] = padded[idx * 2];
+    ordered[padded.length - 1 - idx] = padded[idx * 2 + 1];
+  }
+
+  const cycleLength = Math.max(1, ordered.length - 1);
+  const effectiveRound = ((roundIndex % cycleLength) + cycleLength) % cycleLength;
+  let arrangement = [...ordered];
+
+  for (let step = 0; step < effectiveRound; step += 1) {
+    arrangement = [
+      arrangement[0],
+      arrangement[arrangement.length - 1],
+      ...arrangement.slice(1, -1),
+    ];
+  }
+
+  const pairings: Pairing[] = [];
+  for (let idx = 0; idx < arrangement.length / 2; idx += 1) {
+    const left = arrangement[idx];
+    const right = arrangement[arrangement.length - 1 - idx];
+    if (left === BYE && right === BYE) continue;
+    if (left === BYE) {
+      pairings.push({ left: right, right: null });
+      continue;
+    }
+    if (right === BYE) {
+      pairings.push({ left, right: null });
+      continue;
+    }
+    pairings.push({ left, right });
+  }
+
+  return pairings;
+}
+
+function getPairingCycleLength(participants: string[]) {
+  if (participants.length <= 1) return participants.length;
+  return participants.length % 2 === 0 ? participants.length - 1 : participants.length;
+}
+
 const QUESTION_SETS: QuestionSet[] = [
   {
     id: "kids",
@@ -74,6 +135,8 @@ export default function RoundsApp() {
   const [questions, setQuestions] = useState<Question[]>([]);
   const [phase, setPhase] = useState<Phase>("idle");
   const [roundSeconds, setRoundSeconds] = useState<number>(180);
+  const [participantsInput, setParticipantsInput] = useState<string>("");
+  const [startedRounds, setStartedRounds] = useState<number>(0);
   const [activeQuestionIndex, setActiveQuestionIndex] = useState<number | null>(
     null,
   );
@@ -98,6 +161,11 @@ export default function RoundsApp() {
         ? null
         : QUESTION_SETS.find((set) => set.id === selectedSetId) ?? null,
     [selectedSetId],
+  );
+
+  const participants = useMemo(
+    () => normalizeParticipants(participantsInput),
+    [participantsInput],
   );
 
   const activeQuestion = useMemo(() => {
@@ -125,6 +193,26 @@ export default function RoundsApp() {
     const q = questions[effectiveNextIndex];
     return q ? `${q.textEn} / ${q.textRu}` : "";
   }, [effectiveNextIndex, questions]);
+
+  const pairingRoundIndex = useMemo(() => {
+    if (phase === "running") {
+      return Math.max(startedRounds - 1, 0);
+    }
+    return startedRounds;
+  }, [phase, startedRounds]);
+
+  const currentPairings = useMemo(
+    () => buildRoundPairings(participants, pairingRoundIndex),
+    [pairingRoundIndex, participants],
+  );
+
+  const pairingSchedule = useMemo(() => {
+    const cycleLength = getPairingCycleLength(participants);
+    return Array.from({ length: cycleLength }, (_, roundIndex) => ({
+      round: roundIndex + 1,
+      pairings: buildRoundPairings(participants, roundIndex),
+    }));
+  }, [participants]);
 
   useEffect(() => {
     return () => {
@@ -203,6 +291,7 @@ export default function RoundsApp() {
     setIsPaused(false);
     setRemainingSeconds(0);
     setActiveQuestionIndex(null);
+    setStartedRounds(0);
     setPhase("idle");
     setQuestions((prev) => prev.map((q) => ({ ...q, used: false })));
   }
@@ -216,6 +305,7 @@ export default function RoundsApp() {
     setPhase("idle");
     setRemainingSeconds(0);
     setIsPaused(false);
+    setStartedRounds(0);
     setActiveQuestionIndex(null);
     setHoverPreview("");
     setNextQuestionIndex(null);
@@ -247,6 +337,7 @@ export default function RoundsApp() {
     setQuestions((prev) =>
       prev.map((q, idx) => (idx === nextIndex ? { ...q, used: true } : q)),
     );
+    setStartedRounds((prev) => prev + 1);
     setActiveQuestionIndex(nextIndex);
     setPhase("running");
     startTimer(roundSeconds);
@@ -260,42 +351,104 @@ export default function RoundsApp() {
   return (
     <div className="appRoot">
       <div className="displayArea">
-        {selectedSet == null ? (
-          <div className="chooserLayout">
-            {QUESTION_SETS.map((set) => (
-              <button
-                key={set.id}
-                type="button"
-                className="setCard"
-                onClick={() => chooseQuestionSet(set.id)}
-              >
-                <span className="setCardLabel">{set.title}</span>
-                <div className="setCardQuestions">
-                  {set.questions.map((question) => (
-                    <div key={question.name} className="setCardQuestion">
-                      <div className="setCardQuestionEn">{question.textEn}</div>
-                      <div className="setCardQuestionRu">{question.textRu}</div>
-                    </div>
-                  ))}
+        <div className="displayMain">
+          {participants.length > 0 && selectedSet == null ? (
+            <div className="pairingsSchedule">
+              {pairingSchedule.map((round) => (
+                <div key={round.round} className="pairingsPanel">
+                  <div className="pairingsTitle">Round {round.round}</div>
+                  <div className="pairingsList">
+                    {round.pairings.map((pairing, idx) => (
+                      <div key={`${pairing.left}-${pairing.right ?? "idle"}-${idx}`} className="pairingChip">
+                        {pairing.right == null
+                          ? `${pairing.left} - idle`
+                          : `${pairing.left} - ${pairing.right}`}
+                      </div>
+                    ))}
+                  </div>
                 </div>
-              </button>
-            ))}
-          </div>
-        ) : phase === "running" && activeQuestion ? (
-          <div className="runningLayout">
-            <div className="questionText">
-              <div className="questionTextEn">{activeQuestion.textEn}</div>
-              <div className="questionTextRu">{activeQuestion.textRu}</div>
+              ))}
             </div>
-            <div className="timerText">{formatSeconds(remainingSeconds)}</div>
-          </div>
-        ) : phase === "between" ? (
-          <div className="betweenText">переходим к следующему раунду</div>
-        ) : phase === "finished" ? (
-          <div className="finishedText">вопросы закончились</div>
-        ) : (
-          <div className="idleText">{hasAnyEnabledUnused ? " " : "вопросы закончились"}</div>
-        )}
+          ) : null}
+
+          {participants.length > 0 &&
+          selectedSet != null &&
+          phase !== "running" ? (
+            <div
+              className={[
+                "pairingsPanel",
+                phase === "between" || phase === "idle"
+                  ? "pairingsPanelBetween"
+                  : "",
+              ]
+                .filter(Boolean)
+                .join(" ")}
+            >
+              <div className="pairingsTitle">Round {pairingRoundIndex + 1} pairings</div>
+              <div className="pairingsList">
+                {currentPairings.map((pairing, idx) => (
+                  <div key={`${pairing.left}-${pairing.right ?? "idle"}-${idx}`} className="pairingChip">
+                    {pairing.right == null
+                      ? `${pairing.left} - idle`
+                      : `${pairing.left} - ${pairing.right}`}
+                  </div>
+                ))}
+              </div>
+            </div>
+          ) : null}
+
+          {selectedSet == null ? (
+            <>
+              <div className="participantsSetup">
+                <label className="participantsLabel" htmlFor="participants">
+                  Participants
+                </label>
+                <textarea
+                  id="participants"
+                  className="participantsInput"
+                  value={participantsInput}
+                  onChange={(e) => setParticipantsInput(e.target.value)}
+                  placeholder={"Alice\nBob\nCharlie\nDana"}
+                />
+              </div>
+
+              <div className="chooserLayout">
+                {QUESTION_SETS.map((set) => (
+                  <button
+                    key={set.id}
+                    type="button"
+                    className="setCard"
+                    onClick={() => chooseQuestionSet(set.id)}
+                  >
+                    <span className="setCardLabel">{set.title}</span>
+                    <div className="setCardQuestions">
+                      {set.questions.map((question) => (
+                        <div key={question.name} className="setCardQuestion">
+                          <div className="setCardQuestionEn">{question.textEn}</div>
+                          <div className="setCardQuestionRu">{question.textRu}</div>
+                        </div>
+                      ))}
+                    </div>
+                  </button>
+                ))}
+              </div>
+            </>
+          ) : phase === "running" && activeQuestion ? (
+            <div className="runningLayout">
+              <div className="questionText">
+                <div className="questionTextEn">{activeQuestion.textEn}</div>
+                <div className="questionTextRu">{activeQuestion.textRu}</div>
+              </div>
+              <div className="timerText">{formatSeconds(remainingSeconds)}</div>
+            </div>
+          ) : phase === "between" ? (
+            <div className="betweenText">переходим к следующему раунду</div>
+          ) : phase === "finished" ? (
+            <div className="finishedText">вопросы закончились</div>
+          ) : (
+            <div className="idleText">{hasAnyEnabledUnused ? " " : "вопросы закончились"}</div>
+          )}
+        </div>
       </div>
 
       {selectedSet != null ? (

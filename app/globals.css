@@ -46,7 +46,8 @@ body {
 }
 
 button,
-input {
+input,
+textarea {
   font: inherit;
   color: inherit;
 }
@@ -62,14 +63,101 @@ input {
   flex: 1;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  align-items: stretch;
+  justify-content: flex-start;
   padding: 24px;
   text-align: center;
 }
 
+.displayMain {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
+  gap: 24px;
+}
+
+.participantsSetup {
+  width: min(1100px, 100%);
+  align-self: center;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.participantsLabel {
+  font-size: 14px;
+  text-align: left;
+  color: var(--muted);
+}
+
+.participantsInput {
+  width: 100%;
+  min-height: 124px;
+  resize: vertical;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: color-mix(in srgb, var(--background) 94%, var(--foreground) 6%);
+  padding: 16px 18px;
+}
+
+.pairingsPanel {
+  width: min(1100px, 100%);
+  align-self: center;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 16px 18px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: color-mix(in srgb, var(--background) 94%, var(--foreground) 6%);
+  text-align: left;
+}
+
+.pairingsSchedule {
+  width: min(1100px, 100%);
+  align-self: center;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.pairingsSchedule .pairingsPanel {
+  width: 100%;
+}
+
+.pairingsTitle {
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.pairingsList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.pairingChip {
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: var(--accentBg);
+  color: var(--foreground);
+  font-size: 14px;
+}
+
+.pairingsPanelBetween .pairingsList {
+  gap: 16px;
+}
+
+.pairingsPanelBetween .pairingChip {
+  font-size: 50px;
+  padding: 14px 22px;
+}
+
 .chooserLayout {
   width: min(1100px, 100%);
+  align-self: center;
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 24px;
