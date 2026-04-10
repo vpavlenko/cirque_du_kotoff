@@ -1,0 +1,72 @@
+[
+  {
+    "name": "предмет",
+    "questionRu": "Какого предмета не хватает в школьной программе? Почему его надо добавить?",
+    "questionEn": "What subject is missing from the school curriculum? Why should it be added?"
+  },
+  {
+    "name": "фильм",
+    "questionRu": "Какой фильм или сериал вы хотели бы показать всем вокруг?",
+    "questionEn": "What movie or TV series would you like to show to everyone around you?"
+  },
+  {
+    "name": "кружки",
+    "questionRu": "Какие кружки и секции из детства вы вспоминаете с радостью, а какие — наоборот?",
+    "questionEn": "Which childhood clubs or activities do you remember with pleasure, and which ones do you remember with discomfort?"
+  },
+  {
+    "name": "переезд",
+    "questionRu": "Расскажи о переезде из родительского дома. Каким было ваше первое самостоятельное жилье?",
+    "questionEn": "Tell me about moving out of your parents’ home. What was your first independent living space like?"
+  },
+  {
+    "name": "путешествие",
+    "questionRu": "В какой уголок мира вы возьмёте билет, если деньги и визы — не проблема?",
+    "questionEn": "What part of the world would you buy a ticket to if money and visas were not a problem?"
+  },
+  {
+    "name": "заработок",
+    "questionRu": "Расскажите о своем первом заработке. Что это была за работа и на что ушёл гонорар?",
+    "questionEn": "Tell me about your first earnings. What kind of job was it, and what did you spend the money on?"
+  },
+  {
+    "name": "тайна",
+    "questionRu": "О какой важной истории или части вашей жизни не знают ваши родители?",
+    "questionEn": "What important story or part of your life do your parents not know about?"
+  },
+  {
+    "name": "книга",
+    "questionRu": "Какая самая крутая книга, прочитанная вами за последние пару лет?",
+    "questionEn": "What is the coolest book you have read in the last couple of years?"
+  },
+  {
+    "name": "тело",
+    "questionRu": "Как у вас развивались отношения с собственным телом в течение жизни?",
+    "questionEn": "How has your relationship with your body changed over the course of your life?"
+  },
+  {
+    "name": "момент",
+    "questionRu": "Какой счастливый момент вам хотелось бы пережить заново?",
+    "questionEn": "What happy moment would you like to relive?"
+  },
+  {
+    "name": "навык",
+    "questionRu": "Чему вы хотите научиться за этот год?",
+    "questionEn": "What do you want to learn this year?"
+  },
+  {
+    "name": "блог",
+    "questionRu": "Чей блог вы давно и с удовольствием читаете в соцсетях?",
+    "questionEn": "Whose blog have you been following with pleasure on social media for a long time?"
+  },
+  {
+    "name": "спорт",
+    "questionRu": "Какие у вас отношения со спортом?",
+    "questionEn": "What is your relationship with sports like?"
+  },
+  {
+    "name": "путешествия",
+    "questionRu": "Как вы проводите время в путешествиях? Что в них вам удалось понять про себя?",
+    "questionEn": "How do you spend your time while traveling? What have you learned about yourself from it?"
+  }
+]

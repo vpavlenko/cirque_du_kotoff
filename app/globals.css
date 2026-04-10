@@ -68,6 +68,55 @@ input {
   text-align: center;
 }
 
+.chooserLayout {
+  width: min(1100px, 100%);
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.setCard {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 28px;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  background: color-mix(in srgb, var(--background) 94%, var(--foreground) 6%);
+  text-align: left;
+  cursor: pointer;
+}
+
+.setCardLabel {
+  font-size: clamp(32px, 5vw, 56px);
+  font-weight: 700;
+  line-height: 1;
+}
+
+.setCardQuestionRu {
+  font-size: 18px;
+  color: var(--muted);
+}
+
+.setCardQuestions {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  width: 100%;
+}
+
+.setCardQuestion {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.setCardQuestionEn {
+  font-size: 18px;
+  color: var(--accent);
+}
+
 .runningLayout {
   flex: 1;
   width: 100%;
@@ -79,11 +128,27 @@ input {
 }
 
 .questionText {
+  width: 100vw;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 0 24px;
+}
+
+.questionTextEn,
+.questionTextRu {
   font-weight: 650;
   line-height: 1.15;
   font-size: var(--fs-question);
-  max-width: 56ch;
-  text-align: left;
+}
+
+.questionTextEn {
+  color: var(--accent);
+}
+
+.questionTextRu {
+  color: #000000;
 }
 
 .timerText {
@@ -237,4 +302,14 @@ input {
   border: 1px solid var(--border);
   background: transparent;
   font-variant-numeric: tabular-nums;
+}
+
+@media (max-width: 800px) {
+  .chooserLayout {
+    grid-template-columns: 1fr;
+  }
+
+  .setCard {
+    min-height: 0;
+  }
 }

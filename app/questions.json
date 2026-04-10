@@ -1,58 +1,72 @@
 [
   {
     "name": "любимое",
-    "question": "Какая твоя самая любимая книга или фильм? Почему?"
+    "questionRu": "Какая твоя самая любимая книга или фильм? Почему?",
+    "questionEn": "What is your favorite book or movie, and why?"
   },
   {
     "name": "комната",
-    "question": "Что может рассказать твоя комната о твоих увлечениях? Что в ней есть?"
+    "questionRu": "Что может рассказать твоя комната о твоих увлечениях? Что в ней есть?",
+    "questionEn": "What does your room say about your hobbies? What is in it?"
   },
   {
     "name": "сообщество",
-    "question": "Расскажи про какое-нибудь онлайн-комьюнити, в котором ты состоишь. Или про стримера/блогера, которого ты обожаешь."
+    "questionRu": "Расскажи про какое-нибудь онлайн-комьюнити, в котором ты состоишь. Или про стримера/блогера, которого ты обожаешь.",
+    "questionEn": "Tell me about an online community you are part of, or a streamer or blogger you really love."
   },
   {
     "name": "тема",
-    "question": "Какую тему ты можешь обсуждать бесконечно? Как ты узнаёшь о ней новое?"
+    "questionRu": "Какую тему ты можешь обсуждать бесконечно? Как ты узнаёшь о ней новое?",
+    "questionEn": "What topic could you discuss forever? How do you keep learning new things about it?"
   },
   {
     "name": "человек",
-    "question": "Расскажи о самом интересном человеке не из школы, с которым ты лично знаком."
+    "questionRu": "Расскажи о самом интересном человеке не из школы, с которым ты лично знаком.",
+    "questionEn": "Tell me about the most interesting person outside school whom you know personally."
   },
   {
     "name": "время",
-    "question": "На что бы ты потратил 25-й час в сутках? Кроме сна."
+    "questionRu": "На что бы ты потратил 25-й час в сутках? Кроме сна.",
+    "questionEn": "How would you spend a 25th hour in the day, besides sleeping?"
   },
   {
     "name": "обмен",
-    "question": "С кем из людей тебе хотелось бы на день поменяться жизнями? Почему?"
+    "questionRu": "С кем из людей тебе хотелось бы на день поменяться жизнями? Почему?",
+    "questionEn": "Whose life would you like to swap with for one day, and why?"
   },
   {
     "name": "умение",
-    "question": "Что у тебя лучше всего получается в жизни?"
+    "questionRu": "Что у тебя лучше всего получается в жизни?",
+    "questionEn": "What are you best at in life?"
   },
   {
     "name": "подарок",
-    "question": "Расскажи про какой-нибудь запоминающийся подарок, который ты получал или дарил."
+    "questionRu": "Расскажи про какой-нибудь запоминающийся подарок, который ты получал или дарил.",
+    "questionEn": "Tell me about a memorable gift you received or gave."
   },
   {
     "name": "воспитание",
-    "question": "Если бы ты мог, что бы ты изменил в том, как тебя воспитывали?"
+    "questionRu": "Если бы ты мог, что бы ты изменил в том, как тебя воспитывали?",
+    "questionEn": "If you could, what would you change about the way you were raised?"
   },
   {
     "name": "день",
-    "question": "Каким был бы для тебя «идеальный день»?"
+    "questionRu": "Каким был бы для тебя «идеальный день»?",
+    "questionEn": "What would an ideal day look like for you?"
   },
   {
     "name": "увлечение",
-    "question": "Какое у тебя было главное увлечение 2–3 года назад?"
+    "questionRu": "Какое у тебя было главное увлечение 2–3 года назад?",
+    "questionEn": "What was your main hobby two or three years ago?"
   },
   {
     "name": "лето",
-    "question": "Расскажи про лучшее лето в твоей жизни."
+    "questionRu": "Расскажи про лучшее лето в твоей жизни.",
+    "questionEn": "Tell me about the best summer of your life."
   },
   {
     "name": "праздник",
-    "question": "Расскажи про самый запомнившийся праздник в жизни."
+    "questionRu": "Расскажи про самый запомнившийся праздник в жизни.",
+    "questionEn": "Tell me about the most memorable celebration in your life."
   }
 ]
